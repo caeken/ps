@@ -4,7 +4,7 @@ import os
 def run(ip_list,path,rate):
     try:
         ip_file = open('target.log','w')
-        ip_file.write("\n".join(ip_list))
+        ip_file.write(ip_list)
         ip_file.close()
         path = str(path).translate(None, ';|&')
         rate = str(rate).translate(None, ';|&')
