@@ -57,8 +57,9 @@ class start:
 
             self.masscan_ac[0] = 1
             AC_PORT_LIST = self.masscan(self.scan_list) #self.masscan(ip_list)  # 如果安装了Masscan即使用Masscan进行全端口扫描
-            if not AC_PORT_LIST: continue
             self.masscan_ac[0] = 0
+            
+            if not AC_PORT_LIST: return
             for ip_str in AC_PORT_LIST.keys(): self.queue.put(ip_str)  # 加入队列
             self.scan_start()  # 开始扫描
             
