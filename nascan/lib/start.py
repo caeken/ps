@@ -41,7 +41,8 @@ class start:
         self.config_ini = config
         self.queue = Queue.Queue()
         self.thread = int(self.config_ini['Thread'])
-        self.scan_list = self.config_ini['Scan_list'].split('\n')
+        self.scan_list = self.config_ini['Scan_list']
+        ''''self.scan_list = self.config_ini['Scan_list'].split('\n')''''
         self.mode = int(self.config_ini['Masscan'].split('|')[0])
         self.icmp = int(self.config_ini['Port_list'].split('|')[0])
 
@@ -55,9 +56,10 @@ class start:
             if self.mode == 1:
                 self.masscan_path = self.config_ini['Masscan'].split('|')[2]
                 self.masscan_rate = self.config_ini['Masscan'].split('|')[1]
-                ip_list = self.get_ac_ip(ip_list)
+                ''''ip_list = self.get_ac_ip(ip_list)''''
+                
                 self.masscan_ac[0] = 1
-                AC_PORT_LIST = self.masscan(ip_list)  # 如果安装了Masscan即使用Masscan进行全端口扫描
+                AC_PORT_LIST = self.masscan(self.scan_list)''''self.masscan(ip_list)''''  # 如果安装了Masscan即使用Masscan进行全端口扫描
                 if not AC_PORT_LIST: continue
                 self.masscan_ac[0] = 0
                 for ip_str in AC_PORT_LIST.keys(): self.queue.put(ip_str)  # 加入队列
