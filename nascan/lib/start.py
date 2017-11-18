@@ -41,15 +41,19 @@ class start:
         self.config_ini = config
         self.queue = Queue.Queue()
         self.thread = int(self.config_ini['Thread'])
-        self.scan_list = self.config_ini['Scan_list']
-        #self.scan_list = self.config_ini['Scan_list'].split('\n')
         self.mode = int(self.config_ini['Masscan'].split('|')[0])
         self.icmp = int(self.config_ini['Port_list'].split('|')[0])
+        
+        if self.mode == 1:
+            self.scan_list = self.config_ini['Scan_list']
+        elif self.mode == 0:
+            self.scan_list = self.config_ini['Scan_list'].split('\n')
 
     def run(self):
         global AC_PORT_LIST
         all_ip_list = []
 
+        #Masscan扫描模式
         if self.mode == 1:
             self.masscan_path = self.config_ini['Masscan'].split('|')[2]
             self.masscan_rate = self.config_ini['Masscan'].split('|')[1]
@@ -63,7 +67,12 @@ class start:
             for ip_str in AC_PORT_LIST.keys(): self.queue.put(ip_str)  # 加入队列
             self.scan_start()  # 开始扫描
             
+        #B段扫描模式
         if self.mode == 0:
+            for ip in self.scan_list:
+                ip_list = self.get_ip_list(ip)
+                all_ip_list.extend(ip_list)
+                
             if self.icmp: all_ip_list = self.get_ac_ip(all_ip_list)
             for ip_str in all_ip_list: self.queue.put(ip_str)  # 加入队列
             self.scan_start()  # TCP探测模式开始扫描
