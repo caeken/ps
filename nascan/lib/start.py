@@ -49,10 +49,7 @@ class start:
     def run(self):
         global AC_PORT_LIST
         all_ip_list = []
-        
-        if "/" in ip: ip = cidr.CIDR(ip)
-        if not ip:continue
-        ip_list = self.get_ip_list(ip)
+
         if self.mode == 1:
             self.masscan_path = self.config_ini['Masscan'].split('|')[2]
             self.masscan_rate = self.config_ini['Masscan'].split('|')[1]
