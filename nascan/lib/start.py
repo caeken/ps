@@ -43,6 +43,7 @@ class start:
         self.thread = int(self.config_ini['Thread'])
         self.mode = int(self.config_ini['Masscan'].split('|')[0])
         self.icmp = int(self.config_ini['Port_list'].split('|')[0])
+        self.portlist = self.config_ini['Port_list'].split('|')[1].split('\n')
         
         if self.mode == 1:
             self.scan_list = self.config_ini['Scan_list']
@@ -91,7 +92,9 @@ class start:
             if len(ip) == 0: return
             sys.path.append(sys.path[0] + "/plugin")
             m_scan = __import__("masscan")
-            result = m_scan.run(ip, self.masscan_path, self.masscan_rate)
+            
+            portlist = '-p'+',-p'.join(self.portlist)
+            result = m_scan.run(ip,portlist, self.masscan_path, self.masscan_rate)
             return result
         except Exception, e:
             print e
