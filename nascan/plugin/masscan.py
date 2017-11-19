@@ -3,6 +3,10 @@
 import os
 def run(ip_list,port,path,rate):
     try:
+        
+        os.remove('target.log')
+        os.remove('tmp.log')
+        
         ip_file = open('target.log','w')
         ip_file.write(ip_list)
         ip_file.close()
