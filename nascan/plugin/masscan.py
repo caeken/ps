@@ -1,17 +1,16 @@
 #coding:utf-8
 #author:wolf
 import os
-def run(ip_list,path,rate):
+def run(ip_list,port,path,rate):
     try:
-        port = " -p1-65535 "
         ip_file = open('target.log','w')
         ip_file.write(ip_list)
         ip_file.close()
         path = str(path).translate(None, ';|&')
         rate = str(rate).translate(None, ';|&')
         if not os.path.exists(path):return
-        if "-p" in ip_list:port=" "
-        os.system("%s%s-iL target.log -oL tmp.log --randomize-hosts --rate=%s"%(path,port,rate))
+        if not port:port="-p1-65535"
+        os.system("%s %s -iL target.log -oL tmp.log --randomize-hosts --rate=%s"%(path,port,rate))
         result_file = open('tmp.log', 'r')
         result_json = result_file.readlines()
         result_file.close()
