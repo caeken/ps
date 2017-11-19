@@ -94,7 +94,7 @@ class start:
             m_scan = __import__("masscan")
             
             portlist = '-p'+',-p'.join(self.portlist)
-            result = m_scan.run(ip,portlist, self.masscan_path, self.masscan_rate)
+            result = m_scan.run(ip, portlist, self.masscan_path, self.masscan_rate)
             return result
         except Exception, e:
             print e
