@@ -4,16 +4,13 @@ import os
 def run(ip_list,port,path,rate):
     try:
         
-        os.remove('target.log')
-        os.remove('tmp.log')
-        
         ip_file = open('target.log','w')
         ip_file.write(ip_list)
         ip_file.close()
         path = str(path).translate(None, ';|&')
         rate = str(rate).translate(None, ';|&')
         if not os.path.exists(path):return
-        if not port:port="-p1-65535"
+        if not port:port="-p22-9000"
         os.system("%s %s -iL target.log -oL tmp.log --randomize-hosts --rate=%s"%(path,port,rate))
         result_file = open('tmp.log', 'r')
         result_json = result_file.readlines()
