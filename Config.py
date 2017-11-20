@@ -1,6 +1,6 @@
 class Config(object):
     ACCOUNT = 'admin'
-    PASSWORD = 'xunfeng321'
+    PASSWORD = 'xf321'
 
 
 class ProductionConfig(Config):
