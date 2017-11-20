@@ -93,7 +93,7 @@ class start:
             sys.path.append(sys.path[0] + "/plugin")
             m_scan = __import__("masscan")
             
-            portlist = '-p'+',-p'.join(self.portlist)
+            portlist = '-p'+','.join(self.portlist)
             result = m_scan.run(ip, portlist, self.masscan_path, self.masscan_rate)
             return result
         except Exception, e:
