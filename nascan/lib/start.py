@@ -55,6 +55,9 @@ class start:
         global AC_PORT_LIST
         all_ip_list = []
 
+        #shodan
+        self.shodan()
+
         #Masscan扫描模式
         if self.mode == 1:
             self.masscan_path = self.config_ini['Masscan'].split('|')[2]
@@ -101,9 +104,8 @@ class start:
             print e
             print 'No masscan plugin detected'
 
-    def shodan(self, ip):
+    def shodan(self):
         try:
-            if len(ip) == 0: return
             sys.path.append(sys.path[0] + "/plugin")
             s_scan = __import__("shodanapi")
             
