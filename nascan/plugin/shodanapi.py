@@ -23,3 +23,5 @@ def run(apikey,query,page):
                     
         except shodan.APIError, e:
                 print 'Error: %s' % e
+
+    return open_list
