@@ -124,7 +124,7 @@ class start:
             for q in query_list:
                 query = q[0]
                 page = q[1]
-                print 'current querystr:%s pagecount:% count:' % (query,page,len(query_list))
+                print 'current querystr:%s pagecount:%s count:%s' % (query,page,len(query_list))
 
                 result = s_scan.run(api_key, query, page)
                 result_list = dict(result_list,**result)
