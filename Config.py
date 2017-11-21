@@ -3,10 +3,9 @@ class Config(object):
     PASSWORD = 'xf321'
     
     SHODAN_CONFIG = {
-        "api_key" : "D17aQU0QNYBLHFEQWbmfgEYxgG7z3j0k",
-        "query_list" : [['Gateway port:23',30],['huawei country:cn port:8443',30],['zte country:cn port:80',1],['zte country:cn port:8080',1],['tp-link country:cn port:8080',1]]
+        "api_key" : "",
+        "query_list" : []
     }
-    #,['username country:cn port:23',200]
 
 
 class ProductionConfig(Config):
