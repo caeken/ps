@@ -5,7 +5,6 @@ import threading
 import scan
 import icmp
 import cidr
-from . import app
 
 AC_PORT_LIST = {}
 MASSCAN_AC = 0
@@ -56,8 +55,14 @@ class start:
         all_ip_list = []
 
         #shodan
-        self.shodan()
-
+        self.masscan_ac[0] = 1
+        AC_PORT_LIST = self.shodan()
+        self.masscan_ac[0] = 0
+        if AC_PORT_LIST:
+            for ip_str in AC_PORT_LIST.keys(): self.queue.put(ip_str)  # 加入队列
+            AC_PORT_LIST = {}
+            self.scan_start()
+        
         #Masscan扫描模式
         if self.mode == 1:
             self.masscan_path = self.config_ini['Masscan'].split('|')[2]
@@ -106,10 +111,12 @@ class start:
 
     def shodan(self):
         try:
+            sys.path.append('/'.join(sys.path[0].split('/')[:-1]))
+            shodan_config = __import__("Config").Config.SHODAN_CONFIG
+            
             sys.path.append(sys.path[0] + "/plugin")
             s_scan = __import__("shodanapi")
             
-            shodan_config = app.config.get('SHODAN_CONFIG')
             api_key = shodan_config['api_key']
             query_list = shodan_config['query_list']
             
