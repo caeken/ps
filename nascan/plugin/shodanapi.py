@@ -7,11 +7,11 @@ def run(apikey,query,page):
     api = shodan.Shodan(apikey)
 
     open_list = {}
-    for p in range(page):
+    for i in range(1,page+1):
         try:
-            results = api.search(query,p+1)
-
-            print 'Results found: %s' % results['total']
+            results = api.search(query,i)
+            print 'current page: %s query:%s total:%s' % (i,query,results['total'])
+            
             for result in results['matches']:
                 ip = result['ip_str']
                 port = result['port']
@@ -24,4 +24,5 @@ def run(apikey,query,page):
         except shodan.APIError, e:
                 print 'Error: %s' % e
 
+    print 'Results found: %s' % len(open_list)
     return open_list
