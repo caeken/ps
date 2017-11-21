@@ -99,7 +99,7 @@ class start:
     def masscan(self, ip):
         try:
             if len(ip) == 0: return
-            sys.path.append(sys.path[0] + "/plugin")
+            if "/plugin" not in sys.path: sys.path.append(sys.path[0] + "/plugin")
             m_scan = __import__("masscan")
             
             portlist = '-p'+','.join(self.portlist)
@@ -114,24 +114,25 @@ class start:
             sys.path.append('/'.join(sys.path[0].split('/')[:-1]))
             shodan_config = __import__("Config").Config.SHODAN_CONFIG
             
-            sys.path.append(sys.path[0] + "/plugin")
+            if "/plugin" not in sys.path: sys.path.append(sys.path[0] + "/plugin")
             s_scan = __import__("shodanapi")
             
             api_key = shodan_config['api_key']
             query_list = shodan_config['query_list']
             
             result_list = {}
-            for q in range(quest_list):
+            for q in query_list:
                 query = q[0]
                 page = q[1]
-            
+                print 'current querystr:%s pagecount:% count:' % (query,page,len(query_list))
+
                 result = s_scan.run(api_key, query, page)
-                result_list = dist(result_list,**result)
+                result_list = dict(result_list,**result)
                 
             return result_list
         except Exception, e:
             print e
-            print 'No masscan plugin detected'
+            print 'No shodan plugin detected'
 
     def get_ip_list(self, ip):
         ip_list_tmp = []
