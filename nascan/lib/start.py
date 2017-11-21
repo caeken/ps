@@ -5,6 +5,7 @@ import threading
 import scan
 import icmp
 import cidr
+from . import app
 
 AC_PORT_LIST = {}
 MASSCAN_AC = 0
@@ -96,6 +97,29 @@ class start:
             portlist = '-p'+','.join(self.portlist)
             result = m_scan.run(ip, portlist, self.masscan_path, self.masscan_rate)
             return result
+        except Exception, e:
+            print e
+            print 'No masscan plugin detected'
+
+    def shodan(self, ip):
+        try:
+            if len(ip) == 0: return
+            sys.path.append(sys.path[0] + "/plugin")
+            s_scan = __import__("shodanapi")
+            
+            shodan_config = app.config.get('SHODAN_CONFIG')
+            api_key = shodan_config['api_key']
+            query_list = shodan_config['query_list']
+            
+            result_list = {}
+            for q in range(quest_list):
+                query = q[0]
+                page = q[1]
+            
+                result = s_scan.run(api_key, query, page)
+                result_list = dist(result_list,**result)
+                
+            return result_list
         except Exception, e:
             print e
             print 'No masscan plugin detected'
