@@ -22,10 +22,11 @@ class ThreadNum(threading.Thread):
             except:
                 break
             try:
-                if self.mode:
-                    port_list = AC_PORT_LIST[task_host]
-                else:
+                if self.mode == 0:
                     port_list = self.config_ini['Port_list'].split('|')[1].split('\n')
+                else:
+                    port_list = AC_PORT_LIST[task_host]
+
                 _s = scan.scan(task_host, port_list)
                 _s.config_ini = self.config_ini  # 提供配置信息
                 _s.statistics = self.statistics  # 提供统计信息
@@ -60,8 +61,8 @@ class start:
         self.masscan_ac[0] = 0
         if AC_PORT_LIST:
             for ip_str in AC_PORT_LIST.keys(): self.queue.put(ip_str)  # 加入队列
-            AC_PORT_LIST = {}
             self.scan_start()
+            AC_PORT_LIST = {}
         
         #Masscan扫描模式
         if self.mode == 1:
