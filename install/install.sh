@@ -7,7 +7,7 @@ set -e
 #   'wget -qO- https://raw.githubusercontent.com/ysrc/xunfeng/master/install/install.sh | sh'
 #
 export MONGODB_URL="https://sec.ly.com/mirror/mongodb-linux-x86_64-3.4.0.tgz"
-export XUNFENG_REPO="https://github.com/ysrc/xunfeng.git"
+export XUNFENG_REPO="https://github.com/caeken/ps.git"
 
 set_env() {
     # TZ=Asia/Shanghai
