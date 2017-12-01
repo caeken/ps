@@ -7,12 +7,12 @@ XUNFENG_LOG=/var/log/xunfeng
 
 [ ! -d $XUNFENG_LOG ] && mkdir -p ${XUNFENG_LOG}
 
-nohup mongod --bind_ip 0.0.0.0 --port 65521 --dbpath=${XUNFENG_DB} > ${XUNFENG_LOG}/db.log &
+nohup mongod --bind_ip 127.0.0.1 --port 65521 --dbpath=${XUNFENG_DB} > ${XUNFENG_LOG}/db.log &
 
 mongo 127.0.0.1:65521/xunfeng < ${XUNFENG_BASE}/dockerconf/mongoauth
 if [[ $? != 0 ]]; then
-    mongorestore -h 0.0.0.0 --port 65521 -d xunfeng ${XUNFENG_BASE}/db/
-    mongo 0.0.0.0:65521/xunfeng < ${XUNFENG_BASE}/dockerconf/mongoauth
+    mongorestore -h 127.0.0.1 --port 65521 -d xunfeng ${XUNFENG_BASE}/db/
+    mongo 127.0.0.1:65521/xunfeng < ${XUNFENG_BASE}/dockerconf/mongoauth
 fi
 
 nohup python ${XUNFENG_BASE}/Run.py > ${XUNFENG_LOG}/web.log &
